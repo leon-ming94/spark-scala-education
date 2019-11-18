@@ -8,7 +8,12 @@ import org.apache.spark.sql.SparkSession
 object SparkSql_Project_01 {
     def main(args: Array[String]): Unit = {
 
-        val spark: SparkSession = SparkSession.builder().appName("SparkSql_Project_01").master("local[*]").enableHiveSupport().getOrCreate()
+        val spark: SparkSession = SparkSession
+                .builder()
+                .appName("SparkSql_Project_01")
+                .master("local[*]")
+                .enableHiveSupport()
+                .getOrCreate()
         import spark.implicits._
 
         val acUDAF: AreaClickUDAF = new AreaClickUDAF

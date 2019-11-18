@@ -18,8 +18,11 @@ object WordCount {
         val wordToOneRDD: RDD[(String, Int)] = wordString.map((_,1))
         //reduce
         val wordToCountRDD: RDD[(String, Int)] = wordToOneRDD.reduceByKey(_+_)
+
+        val value: RDD[(String, Int)] = wordToCountRDD.repartition(2)
         //采集
-        val tuples: Array[(String, Int)] = wordToCountRDD.collect()
+        val tuples: Array[(String, Int)] = value.collect()
+//        val tuples: Array[(String, Int)] = wordToCountRDD.collect()
         tuples.foreach(println)
         //关闭资源
         sc.stop()

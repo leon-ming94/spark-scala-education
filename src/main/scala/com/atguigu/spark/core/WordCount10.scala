@@ -18,6 +18,7 @@ object WordCount10 {
             val data: mutable.ArrayOps[String] = word.split(" ")
             data.map((_, 1))
         })
+
         //TODO 第一种 groupby
         val wordGroupby: RDD[(String, Iterable[(String, Int)])] = wordFlatmap.groupBy(t => t._1)
         val wordCount1: RDD[(String, Int)] = wordGroupby.map {
