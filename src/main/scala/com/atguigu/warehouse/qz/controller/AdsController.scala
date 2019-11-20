@@ -8,8 +8,7 @@ import org.apache.spark.sql.SparkSession
 object AdsController {
     def main(args: Array[String]): Unit = {
         System.setProperty("HADOOP_USER_NAME", "atguigu")
-        val sparkConf = new SparkConf().setAppName("ads_qz_controller")
-        //.setMaster("local[*]")
+        val sparkConf = new SparkConf().setAppName("ads_qz_controller")//.setMaster("local[*]")
         val sparkSession = SparkSession.builder().config(sparkConf).enableHiveSupport().getOrCreate()
         HiveUtil.openDynamicPartition(sparkSession) //开启动态分区
         //        HiveUtil.openCompression(sparkSession) //开启压缩

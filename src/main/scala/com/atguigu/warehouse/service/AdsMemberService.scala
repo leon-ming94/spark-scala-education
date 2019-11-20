@@ -17,16 +17,16 @@ object AdsMemberService {
         val result: Dataset[QueryResult] = DwsMemberDao.queryIdlMemberData(spark).as[QueryResult].where(s"dt = '${dt}'")
 
         //TODO 统计注册来源url人数
-//        result.groupByKey(item => item.appregurl + "_" + item.dn + "_" + item.dt)
-//                .mapGroups { case (key, itor) =>
-//                    val strings: Array[String] = key.split("_")
-//                    val appregurl: String = strings(0)
-//                    val dn: String = strings(1)
-//                    val dt: String = strings(2)
-//                    val list: List[QueryResult] = itor.toList
-//                    val count: Int = list.map(item => 1).sum
-//                    (appregurl, count, dt, dn)
-//                }.coalesce(1).write.mode(SaveMode.Overwrite).insertInto("ads.ads_register_appregurlnum")
+        result.groupByKey(item => item.appregurl + "_" + item.dn + "_" + item.dt)
+                .mapGroups { case (key, itor) =>
+                    val strings: Array[String] = key.split("_")
+                    val appregurl: String = strings(0)
+                    val dn: String = strings(1)
+                    val dt: String = strings(2)
+                    val list: List[QueryResult] = itor.toList
+                    val count: Int = list.map(item => 1).sum
+                    (appregurl, count, dt, dn)
+                }.coalesce(1).write.mode(SaveMode.Overwrite).insertInto("ads.ads_register_appregurlnum")
 
         //TODO 统计各memberlevel等级 支付金额前三的用户
 //        result

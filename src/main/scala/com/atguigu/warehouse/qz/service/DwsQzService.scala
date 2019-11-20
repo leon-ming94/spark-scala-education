@@ -1,7 +1,8 @@
 package com.atguigu.warehouse.qz.service
 
 import com.atguigu.warehouse.qz.dao._
-import org.apache.spark.sql.{DataFrame, SaveMode, SparkSession}
+import org.apache.spark.rdd.RDD
+import org.apache.spark.sql.{DataFrame, Row, SaveMode, SparkSession}
 
 /**
   * @author shkstart
@@ -47,7 +48,6 @@ object DwsQzService {
 //                    "question_splitscoretype", "user_question_answer", "dt", "dn")
 //                //.coalesce(5)
 //                .write.mode(SaveMode.Append).insertInto("dws.dws_user_paper_detail")
-
 
         val dwdQzMemberPaperQuestion = UserPaperDetailDao.getDwdQzMemberPaperQuestion(spark, dt).drop("paperid")
                 .withColumnRenamed("question_answer", "user_question_answer")

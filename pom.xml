@@ -6,7 +6,11 @@
 
     <groupId>com.atguigu</groupId>
     <artifactId>spark-scala</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>qzpoint</module>
+    </modules>
 
     <dependencies>
         <dependency>

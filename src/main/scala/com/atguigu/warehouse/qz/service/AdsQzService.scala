@@ -51,14 +51,6 @@ object AdsQzService {
                 .select("userid", "paperviewid", "paperviewname", "chaptername", "pointname", "sitecoursename"
                     , "coursename", "majorname", "shortname", "papername", "score", "rk", "dt", "dn")
                 .coalesce(5).write.mode(SaveMode.Append).insertInto("ads.ads_top3_userdetail")
-//        val top3UserDetail = spark.sql("select *from dws.dws_user_paper_detail")
-//                .where(s"dt=$dt").select("userid", "paperviewid", "paperviewname", "chaptername", "pointname"
-//            , "sitecoursename", "coursename", "majorname", "shortname", "papername", "score", "dt", "dn")
-//                .withColumn("rk", dense_rank().over(Window.partitionBy("paperviewid").orderBy(desc("score"))))
-//                .where("rk<4")
-//                .select("userid", "paperviewid", "paperviewname", "chaptername", "pointname", "sitecoursename"
-//                    , "coursename", "majorname", "shortname", "papername", "score", "rk", "dt", "dn")
-//                .coalesce(5).write.mode(SaveMode.Append).insertInto("ads.ads_top3_userdetail")
 
 
 
@@ -115,7 +107,6 @@ object AdsQzService {
                 .withColumn("rate", (col("passcount") / (col("unpasscount") + col("passcount"))).cast("decimal(4,2)"))
                 .select("paperviewid", "paperviewname", "unpasscount", "passcount", "rate", "dt", "dn")
                 .coalesce(1).write.mode(SaveMode.Append).insertInto("ads.ads_user_paper_detail")
-        //.show()
         resultSegment.unpersist()
 
 

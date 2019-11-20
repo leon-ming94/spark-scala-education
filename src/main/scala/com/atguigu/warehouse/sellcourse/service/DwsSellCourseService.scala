@@ -1,5 +1,7 @@
 package com.atguigu.warehouse.sellcourse.service
 
+import com.atguigu.warehouse.sellcourse.bean.{DwdCourseShoppingCart, DwdSaleCourse}
+import com.atguigu.warehouse.sellcourse.dao.DwdSellCourseDao
 import org.apache.spark.sql.{SaveMode, SparkSession}
 
 import scala.collection.mutable.ArrayBuffer
