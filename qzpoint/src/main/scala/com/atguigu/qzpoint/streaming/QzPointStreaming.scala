@@ -13,7 +13,9 @@ import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.common.TopicPartition
 import org.apache.kafka.common.serialization.StringDeserializer
 import org.apache.spark.SparkConf
+import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.streaming.dstream.InputDStream
+import org.apache.spark.streaming.kafka.KafkaCluster
 import org.apache.spark.streaming.kafka010._
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 
@@ -44,8 +46,14 @@ object QzPointStreaming {
             "auto.offset.reset" -> "earliest",
             "enable.auto.commit" -> (false: lang.Boolean)
         )
+        val kafkaMap1: Map[String, String] = Map[String, String](
+            "bootstrap.servers" -> "hadoop001:9092,hadoop002:9092,hadoop003:9092",
+            "group.id" -> groupid,
+            "auto.offset.reset" -> "earliest"
+        )
         //查询mysql中是否存在偏移量
         val sqlProxy = new SqlProxy()
+        KafkaCluster
         val offsetMap = new mutable.HashMap[TopicPartition, Long]()
         val client = DataSourceUtil.getConnection
         try {
@@ -65,6 +73,7 @@ object QzPointStreaming {
             sqlProxy.shutdown(client)
         }
         //设置kafka消费数据的参数  判断本地是否有偏移量  有则根据偏移量继续消费 无则重新消费
+//        new KafkaCluster(kafkaMap)
         val stream: InputDStream[ConsumerRecord[String, String]] = if (offsetMap.isEmpty) {
             KafkaUtils.createDirectStream(
                 ssc, LocationStrategies.PreferConsistent, ConsumerStrategies.Subscribe[String, String](topics, kafkaMap))
